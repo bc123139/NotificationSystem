@@ -1,7 +1,10 @@
-﻿namespace Notification.Application.Interfaces.Notification
+﻿using Notification.Common.Enums;
+
+namespace Notification.Application.Interfaces.Notification
 {
     public interface INotificationService
     {
-        void SendNotification(string message);
+        public NotificationServiceEnum NotificationService { get; }
+        void SendNotification(string recipient, string message);
     }
 }

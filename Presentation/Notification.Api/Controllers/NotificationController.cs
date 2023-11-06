@@ -7,20 +7,21 @@ namespace Notification.Api.Controllers
 
     public class NotificationController : BaseController<NotificationController>
     {
-        private readonly Dictionary<string, INotificationService> _notificationServices;
+        private readonly IEnumerable<INotificationService> _notificationServices;
         public NotificationController(IEnumerable<INotificationService> notificationServices)
         {
-            _notificationServices = notificationServices.ToDictionary(service => service.GetType().Name);
+            _notificationServices = notificationServices;
         }
 
         [HttpPost(nameof(SendNotification))]
         public async Task<ActionResult> SendNotification([FromBody] NotificationRequestDto request)
         {
-            if (!_notificationServices.TryGetValue(request.ServiceName, out var notificationService))
+            var service = _notificationServices.FirstOrDefault(c => c.NotificationService == request.NotificationService);
+            if (service is null)
             {
                 return BadRequest("Invalid notification service.");
             }
-            notificationService.SendNotification(request.Message);
+            service.SendNotification(request.Recipient,request.Message);
             return Ok("Notification sent successfully.");
         }
     }

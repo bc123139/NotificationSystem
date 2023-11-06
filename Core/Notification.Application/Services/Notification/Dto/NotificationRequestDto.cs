@@ -1,8 +1,11 @@
-﻿namespace Notification.Application.Services.Notification.Dto
+﻿using Notification.Common.Enums;
+
+namespace Notification.Application.Services.Notification.Dto
 {
     public class NotificationRequestDto
     {
-        public string? ServiceName { get; set; }
+        public NotificationServiceEnum NotificationService { get; set; }
+        public string? Recipient { get; set; }
         public string? Message { get; set; }
     }
 }

@@ -6,8 +6,9 @@ namespace Notification.Application.Services.Notification.Dto
     {
         public NotificationRequestDtoValidator()
         {
-            RuleFor(x => x.ServiceName).NotEmpty();
+            RuleFor(x => x.NotificationService).IsInEnum();
             RuleFor(x=>x.Message).NotEmpty();
+            RuleFor(x=>x.Recipient).NotEmpty();
         }
     }
 }
